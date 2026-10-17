@@ -1,0 +1,60 @@
+[package]
+name = "cosmic-keyboard-sounds"
+version = "0.2.0"
+edition = "2021"
+description = "Mechanical keyboard sounds for Linux / COSMIC desktop"
+authors = ["cosmic-keyboard-sounds contributors"]
+
+[lib]
+name = "cosmic_keyboard_sounds"
+path = "src/lib.rs"
+
+[[bin]]
+name = "cosmic-keyboard-sounds"
+path = "src/main.rs"
+
+[[bin]]
+name = "cosmic-keyboard-sounds-gui"
+path = "src/gui/main.rs"
+
+[dependencies]
+# Input event reading
+evdev = "0.12"
+
+# Audio playback
+rodio = { version = "0.23", default-features = false, features = [
+    "playback",
+    "symphonia-wav",
+    "symphonia-pcm",
+] }
+
+# Async / threading
+tokio = { version = "1", features = ["full"] }
+
+# Config (TOML)
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+
+# Find input devices
+glob = "0.3"
+
+# Error handling
+anyhow = "1.0"
+
+# Signal handling
+ctrlc = "3.4"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# CLI argument parsing
+clap = { version = "4", features = ["derive"] }
+
+# GUI (GTK4)
+gtk4 = { version = "0.9", features = ["v4_14"] }
+
+[profile.release]
+opt-level = "s"
+lto = "thin"
+strip = true
